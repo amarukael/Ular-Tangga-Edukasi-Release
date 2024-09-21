@@ -1,16 +1,17 @@
 const express = require("express");
-const app = express();
-const http = require("http");
 const path = require("path");
-const port = 8000;
-// Use the whole root as static files to be able to serve the html file and
-// the build folder
-app.use(express.static(path.join(__dirname, "/")));
-// Send html on '/'path
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Mengatur direktori statis untuk file build Unity
+app.use(express.static(path.join(__dirname, "Build")));
+
+// Rute untuk mengarahkan ke index.html
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, +"/main.html"));
+  res.sendFile(path.join(__dirname, "Build", "index.html"));
 });
-// Create the server and listen on port
-http.createServer(app).listen(port, () => {
-  console.log(`Server running on localhost:${port}`);
+
+app.listen(port, () => {
+  console.log(`Server berjalan di http://localhost:${port}`);
 });
